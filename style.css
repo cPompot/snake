@@ -3,11 +3,24 @@ body {
 }
 
 #presentation {
-    width: 500px;
+    width: 750px;
     display: flex;
     flex-direction: column;
     justify-self: center;
     align-items: center;
+}
+img {
+    width: 100px;
+}
+
+h1, h2, p {
+    font-family: 'Press Start 2P', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+p {
+    font-size: 0.8em;
 }
 
 canvas {
@@ -15,6 +28,7 @@ canvas {
 }
 
 #game {
+    width: 600px;
     display: flex;
     position: relative;
 }

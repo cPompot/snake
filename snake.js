@@ -1,12 +1,19 @@
-var snake;
-
-//initialiser le serpent avec une classe
-class SnakeCreation {
+// Initialiser le serpent avec une classe
+class Snake {
     constructor() {
         this.x = 0;
         this.y = 0;
         this.xdir = 1;
-        this.ydir= 0;
+        this.ydir = 0;
+    }
+    start(){
+        var self = this;
+        setInterval(function(){self.move()}, 100); // Binding js. appel de méthode asynchrone https://stackoverflow.com/questions/2001920/calling-a-class-prototype-method-by-a-setinterval-event
+    }
+
+    move(){
+        this.update();
+        this.show();
     }
 
     //méthode pour actualiser le déplacement du serpent
@@ -23,13 +30,11 @@ class SnakeCreation {
     }
 }
 
-//créer un serpent
-function setup() {
-    snake = new SnakeCreation();
+function initGame () {
+    let snake = new Snake();
+    snake.start();
 }
 
-//faire apparaître le serpent
-function draw() {
-    snake.update();
-    snake.show();
-}
+window.onload = function() {
+    initGame()
+};

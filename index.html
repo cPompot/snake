@@ -3,11 +3,20 @@
     <head>
         <meta charset="UFT-8">
         <title>Le jeu du Serpent</title>
+        <link rel="stylesheet" href="style.css"/>
         <script src="snake.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
     <body>
         <div id="presentation">
+            <h1>Snake Game</h1>
+            <img src="/Resources/sarmi6-50.jpg" alt=SnakeLogo />
+            <h2>Faites grandir votre serpent sans lui faire se mordre la queue !</h2>
+            <p>Aidez-le à attraper sa nourriture. Utilisez les flèches du clavier pour vous diriger.</p>
+            <p>Attention, vous ne pouvez ni arrêter le serpent ni revenir en arrière.</p>
+            <p>Si le serpent se mord la queue, la partie prend fin.</p>
         </div>
         <div id="game">
          <canvas id="playground" width="500" height="500"></canvas>
