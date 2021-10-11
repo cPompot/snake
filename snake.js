@@ -1,19 +1,10 @@
 let scl = 10;
 let speed = 1.5;
-const snakeBody = [];
-let tailLength = 2;
 let score = 0;
 const ctx = document.querySelector('canvas').getContext('2d');
 
 let gameOver = false;
 let int;
-
-class SnakePart {
-    constructor (x, y) {
-    this.x = x;
-    this.y = y;
-    }
-}
 
 // Initialiser le serpent avec une classe
 class Snake {
@@ -22,32 +13,30 @@ class Snake {
         this.y = 0;
         this.xdir = 1;
         this.ydir = 0;
+        this.tail = [{x: this.x, y: this.y}];
     }
 
     //méthode pour faire bouger le serpent
     move() {
-        this.show();
         this.update();
+        this.show();
     }
 
     //méthode pour actualiser le déplacement du serpent
     update() {
         this.x = this.x + this.xdir*scl;
         this.y = this.y + this.ydir*scl;
+
+        this.tail.push({x: this.x, y: this.y});
+        this.tail.shift();
     }
 
     //méthode pour dessiner le serpent + actions pour ne pas revenir en arrière
     show() {
-        ctx.fillStyle = 'rgb(255,255,255)';
-        ctx.fillRect(this.x, this.y, scl, scl);
-
-        /*ctx.fillStyle = 'rbg(0, 190, 0)';
-        for (let i = 0; i < snakeBody.length; i++) {
-            let bodyPart = snakeBody[i];
-            ctx.fillRect(part.x, part.y, scl, scl);
+        for (let i = 0; i < this.tail.length; i++) {
+            ctx.fillStyle = 'rgb(255,165,0)';
+            ctx.fillRect(this.tail[i].x, this.tail[i].y, scl, scl);
         }
-
-        snakeBody.push(new SnakePart(this.x, this.y));*/
     }
 
     moveLeft() {
@@ -94,15 +83,12 @@ class Snake {
         };
 
         if (gameOver === true) {
-            console.log('hello');
             ctx.fillStyle = 'rgb(255, 255, 255)';
             ctx.font = 'Press Start 2P';
             ctx.fillText("Game Over!", 220, 230);
         }
     }
 }
-
-
 
 //pour associer les touches aux déplacements du serpent
 document.onkeydown = function (el) {
@@ -145,7 +131,7 @@ class Food {
     checkCollision() {
         if (this.x === snake.x && this.y === snake.y) {
             this.pickLocation();
-            tailLength ++;
+            snake.tail.push({x: this.x, y:this.y});
             score ++;
         }
     }
@@ -154,7 +140,7 @@ class Food {
 let snake = new Snake();
 let food = new Food();
 
-//Pour faire apparaître le score - NE MARCHE PAS
+//Pour faire apparaître le score
 function drawScore () {
     ctx.fillStyle = 'rgb(255, 255, 255)';
     ctx.font = '10px Press Start 2P';
@@ -178,10 +164,8 @@ function animLoop() {
 
     snake.move();
     
-
     food.checkCollision();
     food.show();
-
     
 }
 
