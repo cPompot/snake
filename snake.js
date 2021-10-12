@@ -2,6 +2,8 @@ let scl = 10;
 let speed = 1.5;
 let score = 0;
 const ctx = document.querySelector('canvas').getContext('2d');
+const audioBite = new Audio("./Resources/mixkit-chewing-something-crunchy-2244.wav");
+const audioGameover = new Audio("./Resources/mixkit-funny-game-over-2878.wav");
 
 let gameOver = false;
 let int;
@@ -82,10 +84,18 @@ class Snake {
             gameOver = true;
         };
 
+        for(let i = 1; i < this.tail.length; i++) {
+            let part = this.tail[i];
+            if(this.tail[0].x === part.x && this.tail[0].y === part.y) {
+                gameOver = true;
+            }
+        }
+
         if (gameOver === true) {
             ctx.fillStyle = 'rgb(255, 255, 255)';
-            ctx.font = 'Press Start 2P';
-            ctx.fillText("Game Over!", 220, 230);
+            ctx.font = '35px Verdana';
+            ctx.fillText("Game Over!", 140, 240);
+            audioGameover.play();
         }
     }
 }
@@ -132,7 +142,9 @@ class Food {
         if (this.x === snake.x && this.y === snake.y) {
             this.pickLocation();
             snake.tail.push({x: this.x, y:this.y});
+            audioBite.play();
             score ++;
+            scoreDisplay.innerHTML = "Score: " + score;
         }
     }
 }
@@ -140,21 +152,12 @@ class Food {
 let snake = new Snake();
 let food = new Food();
 
-//Pour faire apparaître le score
-function drawScore () {
-    ctx.fillStyle = 'rgb(255, 255, 255)';
-    ctx.font = '10px Press Start 2P';
-    ctx.fillText("Score " + score, 450, 10);
-}
-
 function animLoop() {
     //
     // exec toutes les 100ms
     //
 
     ctx.clearRect(0, 0, 500, 500);  // 
-
-    drawScore();
 
     snake.checkGameOver();
     if (gameOver) {
