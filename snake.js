@@ -1,5 +1,5 @@
 let scl = 10;
-let speed = 1.5;
+let speed = 0.3;
 let score = 0;
 const ctx = document.querySelector('canvas').getContext('2d');
 const audioBite = new Audio("./Resources/mixkit-chewing-something-crunchy-2244.wav");
@@ -15,7 +15,20 @@ class Snake {
         this.y = 0;
         this.xdir = 1;
         this.ydir = 0;
-        this.tail = [{x: this.x, y: this.y}];
+        this.tail = [{x: this.x, y: this.y},
+            {x: this.x + scl * 1, y: this.y},
+            {x: this.x + scl * 2, y: this.y},
+            {x: this.x + scl * 3, y: this.y},
+            {x: this.x + scl * 4, y: this.y},
+            {x: this.x + scl * 5, y: this.y},
+            {x: this.x + scl * 6, y: this.y},
+            {x: this.x + scl * 7, y: this.y},
+            {x: this.x + scl * 8, y: this.y},
+            {x: this.x + scl * 9, y: this.y},
+            {x: this.x + scl * 10, y: this.y},
+            {x: this.x + scl * 11, y: this.y},
+            {x: this.x + scl * 12, y: this.y},
+        ];
     }
 
     //méthode pour faire bouger le serpent
@@ -75,28 +88,23 @@ class Snake {
 
     checkGameOver() {
         if (this.x < 0) {
-            gameOver = true;
+            return true;
         } else if (this.y < 0) {
-            gameOver = true;
+            return true;
         } else if (this.x > 500) {
-            gameOver = true;
+            return true;
         } else if (this.y > 500) {
-            gameOver = true;
-        };
+            return true;
+        }
 
-        for(let i = 1; i < this.tail.length; i++) {
+        let headIndex = this.tail.length - 1;
+        for(let i = 1; i < headIndex; i++) {
             let part = this.tail[i];
-            if(this.tail[0].x === part.x && this.tail[0].y === part.y) {
-                gameOver = true;
+            if(this.tail[headIndex].x === part.x && this.tail[headIndex].y === part.y) {
+                return true;
             }
         }
-
-        if (gameOver === true) {
-            ctx.fillStyle = 'rgb(255, 255, 255)';
-            ctx.font = '35px Verdana';
-            ctx.fillText("Game Over!", 140, 240);
-            audioGameover.play();
-        }
+        return false;
     }
 }
 
@@ -131,10 +139,11 @@ class Food {
 
     //méthode pour choisir de manière aléatoire la position de la nourriture
     pickLocation() {
+        let margin = 20;
         let columns = Math.floor(500/scl);
         let rows = Math.floor(500/scl);
-        this.x = columns*Math.floor(Math.random()*(500/columns)); // 50 * [1,10]
-        this.y = rows*Math.floor(Math.random()*(500/rows));
+        this.x = scl*(margin + Math.floor(Math.random()*(columns - 2*margin))); // 10 * [1,50]
+        this.y = scl*Math.floor(Math.random()*(rows));
     }
 
     //méthode pour vérifier si le serpent entre en collision avec la nourriture
@@ -159,14 +168,17 @@ function animLoop() {
 
     ctx.clearRect(0, 0, 500, 500);  // 
 
-    snake.checkGameOver();
-    if (gameOver) {
+
+    if (snake.checkGameOver()) {
+        ctx.fillStyle = 'rgb(255, 255, 255)';
+        ctx.font = '35px Verdana';
+        ctx.fillText("Game Over!", 140, 240);
+        audioGameover.play();
         clearInterval(int)
         return
     }
 
     snake.move();
-    
     food.checkCollision();
     food.show();
     
