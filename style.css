@@ -6,8 +6,10 @@
 body {
     background-image: url("./Resources/bg_snake.png");
     background-repeat: no-repeat;
-    min-height: 100vh;
-    background-size: 100vw 100vh;
+    min-height: 105vh;
+    max-width: 100%;
+    background-size: cover;
+    background-position: left bottom;
     display: flex;
 }
 
@@ -24,13 +26,13 @@ body {
 h1 {
     font-family: 'Press Start 2P', sans-serif;
     font-size: 3.5em;
-    margin-bottom: 100px;
+    margin-bottom: 65px;
     color: black;
     text-align: center;
 }
 
 h2 {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     color: black;
     text-align: center;
     font-family: 'Ubuntu Light 300', sans-serif;
@@ -47,6 +49,18 @@ p {
 
 p:last-child {
     margin-bottom: 10px;
+}
+
+#start-button {
+    width: 150px;
+    height: 50px;
+    font-family: 'Ubuntu Light 300', sans-serif;
+    color: black;
+    text-align: center;
+    font-size: 1.5em;
+    border: 1px solid whitesmoke;
+    box-shadow: black 10px 10px 20px;
+    margin-top: 40px;
 }
 
 canvas {
@@ -68,7 +82,8 @@ canvas {
     justify-content: center;
 }
 
-#scoreDisplay {
+#scoreDisplay, 
+#speedDisplay {
     text-align: end;
     font-family: 'Ubuntu Regular 400', sans-serif;
     font-size: 1.2em;

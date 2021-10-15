@@ -1,9 +1,10 @@
 let scl = 10;
-let speed = 0.3;
+let speed;
 let score = 0;
 const ctx = document.querySelector('canvas').getContext('2d');
 const audioBite = new Audio("./Resources/mixkit-chewing-something-crunchy-2244.wav");
 const audioGameover = new Audio("./Resources/mixkit-funny-game-over-2878.wav");
+const audioSpeed = new Audio("./Resources/mixkit-arcade-bonus-alert-767.wav");
 
 let gameOver = false;
 let int;
@@ -20,14 +21,6 @@ class Snake {
             {x: this.x + scl * 2, y: this.y},
             {x: this.x + scl * 3, y: this.y},
             {x: this.x + scl * 4, y: this.y},
-            {x: this.x + scl * 5, y: this.y},
-            {x: this.x + scl * 6, y: this.y},
-            {x: this.x + scl * 7, y: this.y},
-            {x: this.x + scl * 8, y: this.y},
-            {x: this.x + scl * 9, y: this.y},
-            {x: this.x + scl * 10, y: this.y},
-            {x: this.x + scl * 11, y: this.y},
-            {x: this.x + scl * 12, y: this.y},
         ];
     }
 
@@ -88,12 +81,16 @@ class Snake {
 
     checkGameOver() {
         if (this.x < 0) {
+            debugger;
             return true;
         } else if (this.y < 0) {
+            debugger;
             return true;
-        } else if (this.x > 500) {
+        } else if (this.x >= 500) {
+            debugger;
             return true;
-        } else if (this.y > 500) {
+        } else if (this.y >= 500) {
+            debugger;
             return true;
         }
 
@@ -149,46 +146,95 @@ class Food {
     //méthode pour vérifier si le serpent entre en collision avec la nourriture
     checkCollision() {
         if (this.x === snake.x && this.y === snake.y) {
-            this.pickLocation();
             snake.tail.push({x: this.x, y:this.y});
             audioBite.play();
             score ++;
-            scoreDisplay.innerHTML = "Score: " + score;
+            this.pickLocation();
         }
+    }
+
+    increaseSpeed() {
+        if (score > 12){
+            if(speed !== 0.2) {
+                speed = 0.2;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Expertise";
+            }
+        } else if (score > 10){
+            if(speed !== 0.3) {
+                speed = 0.3;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Maîtrise";
+            }
+        } else if (score > 8){
+            if(speed !== 0.4) {
+                speed = 0.4;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Expérimenté";
+            }
+        } else if (score > 6){
+            if(speed !== 0.5) {
+                speed = 0.5;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Intermédiaire";
+            }
+        } else if (score > 4){
+            if(speed !== 0.6) {
+                speed = 0.6;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Apprenti";
+            }
+        } else if (score > 2){
+            if(speed !== 0.7) {
+                speed = 0.7;
+                audioSpeed.play();
+                speedDisplay.innerHTML = "Niveau: Amateur";
+            }
+        } else {
+            speedDisplay.innerHTML = "Niveau: Découverte"    
+        }
+
+        clearInterval(int);
+        int = setInterval(animLoop, 100*speed);
     }
 }
 
-let snake = new Snake();
+let snake;
 let food = new Food();
 
 function animLoop() {
+    console.log("animLoop");
     //
     // exec toutes les 100ms
     //
-
-    ctx.clearRect(0, 0, 500, 500);  // 
-
 
     if (snake.checkGameOver()) {
         ctx.fillStyle = 'rgb(255, 255, 255)';
         ctx.font = '35px Verdana';
         ctx.fillText("Game Over!", 140, 240);
         audioGameover.play();
-        clearInterval(int)
-        return
+        clearInterval(int);
+        return;
     }
 
-    snake.move();
-    food.checkCollision();
-    food.show();
-    
-}
+    ctx.clearRect(0, 0, 510, 510);
 
+    food.checkCollision();
+    snake.move();
+    food.show();
+    food.increaseSpeed();
+    scoreDisplay.innerHTML = "Score: " + score;
+
+}
 
 //Fonction pour jouer
-function game() {
+document.getElementById("start-button").onclick = function () {
+    score = 0;  
+    speed = 0.9;
+    snake = new Snake();
+    console.log(int);
+    if(int){
+        clearInterval(int);
+    }
     int = setInterval(animLoop, 100*speed);
 }
-
-//appel de la fonction
-game();
