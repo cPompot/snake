@@ -154,37 +154,37 @@ class Food {
     }
 
     increaseSpeed() {
-        if (score > 12){
+        if (score > 54){
             if(speed !== 0.2) {
                 speed = 0.2;
                 audioSpeed.play();
                 speedDisplay.innerHTML = "Niveau: Expertise";
             }
-        } else if (score > 10){
+        } else if (score > 45){
             if(speed !== 0.3) {
                 speed = 0.3;
                 audioSpeed.play();
                 speedDisplay.innerHTML = "Niveau: Maîtrise";
             }
-        } else if (score > 8){
+        } else if (score > 36){
             if(speed !== 0.4) {
                 speed = 0.4;
                 audioSpeed.play();
                 speedDisplay.innerHTML = "Niveau: Expérimenté";
             }
-        } else if (score > 6){
+        } else if (score > 27){
             if(speed !== 0.5) {
                 speed = 0.5;
                 audioSpeed.play();
                 speedDisplay.innerHTML = "Niveau: Intermédiaire";
             }
-        } else if (score > 4){
+        } else if (score > 18){
             if(speed !== 0.6) {
                 speed = 0.6;
                 audioSpeed.play();
                 speedDisplay.innerHTML = "Niveau: Apprenti";
             }
-        } else if (score > 2){
+        } else if (score > 9){
             if(speed !== 0.7) {
                 speed = 0.7;
                 audioSpeed.play();

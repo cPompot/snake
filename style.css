@@ -6,7 +6,7 @@
 body {
     background-image: url("./Resources/bg_snake.png");
     background-repeat: no-repeat;
-    min-height: 105vh;
+    min-height: 100vh;
     max-width: 100%;
     background-size: cover;
     background-position: left bottom;
