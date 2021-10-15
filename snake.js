@@ -7,7 +7,7 @@ const audioGameover = new Audio("./Resources/mixkit-funny-game-over-2878.wav");
 const audioSpeed = new Audio("./Resources/mixkit-arcade-bonus-alert-767.wav");
 
 let gameOver = false;
-let int;
+let animloopInterval;
 
 // Initialiser le serpent avec une classe
 class Snake {
@@ -79,18 +79,15 @@ class Snake {
         this.ydir = 1;
     }
 
+    //méthode pour arrêter le jeu si le serpent cogne un mur ou s'il mange sa queue
     checkGameOver() {
         if (this.x < 0) {
-            debugger;
             return true;
         } else if (this.y < 0) {
-            debugger;
             return true;
         } else if (this.x >= 500) {
-            debugger;
             return true;
         } else if (this.y >= 500) {
-            debugger;
             return true;
         }
 
@@ -153,6 +150,7 @@ class Food {
         }
     }
 
+    //méthode pour augmenter la difficulté du jeu
     increaseSpeed() {
         if (score > 54){
             if(speed !== 0.2) {
@@ -194,26 +192,23 @@ class Food {
             speedDisplay.innerHTML = "Niveau: Découverte"    
         }
 
-        clearInterval(int);
-        int = setInterval(animLoop, 100*speed);
+        clearInterval(animloopInterval);
+        animloopInterval = setInterval(animLoop, 100*speed);
     }
 }
 
 let snake;
 let food = new Food();
 
+//boucle d'animation qui s'exécute toutes les 100ms
 function animLoop() {
-    console.log("animLoop");
-    //
-    // exec toutes les 100ms
-    //
-
+ 
     if (snake.checkGameOver()) {
         ctx.fillStyle = 'rgb(255, 255, 255)';
         ctx.font = '35px Verdana';
         ctx.fillText("Game Over!", 140, 240);
         audioGameover.play();
-        clearInterval(int);
+        clearInterval(animloopInterval);
         return;
     }
 
@@ -232,9 +227,8 @@ document.getElementById("start-button").onclick = function () {
     score = 0;  
     speed = 0.9;
     snake = new Snake();
-    console.log(int);
-    if(int){
-        clearInterval(int);
+    if(animloopInterval){
+        clearInterval(animloopInterval);
     }
-    int = setInterval(animLoop, 100*speed);
+    animloopInterval = setInterval(animLoop, 100*speed);
 }
