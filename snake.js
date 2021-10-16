@@ -86,9 +86,9 @@ class Snake {
             return true;
         } else if (this.y < 0) {
             return true;
-        } else if (this.x >= canvas.width-scl) {
+        } else if (this.x > canvas.width-scl) {
             return true;
-        } else if (this.y >= canvas.height-scl) {
+        } else if (this.y > canvas.height-scl) {
             return true;
         }
 
@@ -135,9 +135,9 @@ class Food {
     //méthode pour choisir de manière aléatoire la position de la nourriture
     pickLocation() {
         let margin = 20;
-        let columns = Math.floor(canvas.width/scl);
-        let rows = Math.floor(canvas.height/scl);
-        this.x = scl*(margin + Math.floor(Math.random()*(columns - 2*margin))); // 10 * [1,51]
+        let columns = Math.floor((canvas.width-scl)/scl);
+        let rows = Math.floor((canvas.height-scl)/scl);
+        this.x = scl*(margin + Math.floor(Math.random()*(columns - 2*margin))); // 10 * [1,50]
         this.y = scl*Math.floor(Math.random()*(rows));
     }
 
