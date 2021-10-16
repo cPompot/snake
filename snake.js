@@ -1,7 +1,8 @@
 let scl = 10;
 let speed;
 let score = 0;
-const ctx = document.querySelector('canvas').getContext('2d');
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
 const audioBite = new Audio("./Resources/mixkit-chewing-something-crunchy-2244.wav");
 const audioGameover = new Audio("./Resources/mixkit-funny-game-over-2878.wav");
 const audioSpeed = new Audio("./Resources/mixkit-arcade-bonus-alert-767.wav");
@@ -85,9 +86,9 @@ class Snake {
             return true;
         } else if (this.y < 0) {
             return true;
-        } else if (this.x >= 500) {
+        } else if (this.x >= canvas.width-scl) {
             return true;
-        } else if (this.y >= 500) {
+        } else if (this.y >= canvas.height-scl) {
             return true;
         }
 
@@ -134,9 +135,9 @@ class Food {
     //méthode pour choisir de manière aléatoire la position de la nourriture
     pickLocation() {
         let margin = 20;
-        let columns = Math.floor(500/scl);
-        let rows = Math.floor(500/scl);
-        this.x = scl*(margin + Math.floor(Math.random()*(columns - 2*margin))); // 10 * [1,50]
+        let columns = Math.floor(canvas.width/scl);
+        let rows = Math.floor(canvas.height/scl);
+        this.x = scl*(margin + Math.floor(Math.random()*(columns - 2*margin))); // 10 * [1,51]
         this.y = scl*Math.floor(Math.random()*(rows));
     }
 
@@ -156,25 +157,25 @@ class Food {
             if(speed !== 0.2) {
                 speed = 0.2;
                 audioSpeed.play();
-                speedDisplay.innerHTML = "Niveau: Expertise";
+                speedDisplay.innerHTML = "Niveau: Charmeur de serpent";
             }
         } else if (score > 45){
             if(speed !== 0.3) {
                 speed = 0.3;
                 audioSpeed.play();
-                speedDisplay.innerHTML = "Niveau: Maîtrise";
+                speedDisplay.innerHTML = "Niveau: Maître dresseur";
             }
         } else if (score > 36){
             if(speed !== 0.4) {
                 speed = 0.4;
                 audioSpeed.play();
-                speedDisplay.innerHTML = "Niveau: Expérimenté";
+                speedDisplay.innerHTML = "Niveau: Expert";
             }
         } else if (score > 27){
             if(speed !== 0.5) {
                 speed = 0.5;
                 audioSpeed.play();
-                speedDisplay.innerHTML = "Niveau: Intermédiaire";
+                speedDisplay.innerHTML = "Niveau: Connaisseur";
             }
         } else if (score > 18){
             if(speed !== 0.6) {
@@ -189,7 +190,7 @@ class Food {
                 speedDisplay.innerHTML = "Niveau: Amateur";
             }
         } else {
-            speedDisplay.innerHTML = "Niveau: Découverte"    
+            speedDisplay.innerHTML = "Niveau: Débutant"    
         }
 
         clearInterval(animloopInterval);
@@ -206,13 +207,13 @@ function animLoop() {
     if (snake.checkGameOver()) {
         ctx.fillStyle = 'rgb(255, 255, 255)';
         ctx.font = '35px Verdana';
-        ctx.fillText("Game Over!", 140, 240);
+        ctx.fillText("Game Over!", 150, 240);
         audioGameover.play();
         clearInterval(animloopInterval);
         return;
     }
 
-    ctx.clearRect(0, 0, 510, 510);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     food.checkCollision();
     snake.move();
